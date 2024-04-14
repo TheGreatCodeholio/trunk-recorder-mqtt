@@ -86,7 +86,7 @@
     "plugins": [
     {
         "name": "MQTT Status",
-        "library": "libmqtt_status_plugin.so",
+        "library": "/usr/local/lib/trunk-recorder/libmqtt_status_plugin.so",
         "broker": "tcp://192.168.1.44:1883",
         "topic": "trunk_recorder/feeds",
         "unit_topic": "trunk_recorder/units",
@@ -94,6 +94,10 @@
         "password": "4Ij29R&RaSkVgwhx",
         "console_logs": true
     }],
+    "callTimeout": 5,
+    "tempDir": "/dev/shm",
+    "captureDir": "/app/tr_audio",
+    "logDir": "/app/tr_logs"
     "logLevel": "info",
     "frequencyFormat": "mhz",
     "logFile": true,

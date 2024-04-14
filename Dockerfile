@@ -1,8 +1,10 @@
-FROM ubuntu:22.04
+FROM ubuntu:22.04 AS base
 
-# Install additional dependencies
-RUN apt update && apt upgrade -y && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+# Install docker for passing the socket to allow for intercontainer exec
+RUN apt-get update && \
+  apt-get -y upgrade &&\
+  export DEBIAN_FRONTEND=noninteractive && \
+  apt-get install -y \
     apt-transport-https \
     build-essential \
     ca-certificates \
@@ -26,6 +28,8 @@ RUN apt update && apt upgrade -y && \
     libhackrf-dev \
     libmirisdr-dev \
     liborc-0.4-dev \
+    libpaho-mqtt-dev  \
+    libpaho-mqttpp-dev \
     libpthread-stubs0-dev \
     libsndfile1-dev \
     libsoapysdr-dev \
@@ -37,18 +41,8 @@ RUN apt update && apt upgrade -y && \
     pkg-config \
     software-properties-common \
     sox \
-    python3.11 \
-    python3.11-distutils \
-    python3.11-venv \
-    python3-pip \
-    python3-setuptools \
-    python3-dev \
-    libpaho-mqtt-dev \
-    libpaho-mqttpp-dev \
-    ffmpeg \
-    && \
-    apt clean && \
-    rm -rf /var/lib/apt/lists/*
+    wget && \
+  rm -rf /var/lib/apt/lists/*
 
 # Fix the error message level for SmartNet
 
@@ -81,38 +75,21 @@ RUN cd /tmp && \
   cd /tmp && \
   rm -rf gr-osmosdr
 
-RUN cd / &&  \
-    mkdir src &&  \
-    cd src && \
-    git clone -b rc/v5.0 https://github.com/robotastic/trunk-recorder.git && \
-    git clone -b test/autobuild https://github.com/taclane/trunk-recorder-mqtt-status.git /src/trunk-recorder/user-plugins && \
-    cd trunk-recorder && \
-    mkdir build && \
-    cd build && \
-    cmake ../ && \
-    make -j$(nproc) && \
-    make install
+WORKDIR /src
 
+RUN git clone -b rc/v5.0 https://github.com/robotastic/trunk-recorder.git  \
+    && cd trunk-recorder  \
+    && mkdir build
 
-# Clone and build Trunk Recorder MQTT Status Plugin
-#RUN git clone https://github.com/taclane/trunk-recorder-mqtt-status.git \
-#    && cd trunk-recorder-mqtt-status \
-#    && mkdir build && cd build \
-#    && cmake ../ \
-#    && make install \
-#    && cd ../.. && rm -rf trunk-recorder-mqtt-status
+RUN cd trunk-recorder/user_plugins && git clone -b test/autobuild https://github.com/taclane/trunk-recorder-mqtt-status.git
 
-# Upgrade PIP
-RUN pip3 install --upgrade pip
+WORKDIR /src/trunk-recorder/build
 
-# Set the working directory in the container
+RUN cmake .. && make -j$(nproc) && make install
+
+#USER nobody
+
 WORKDIR /app
-
-# Install iCAD TR Uploader
-RUN git clone https://github.com/TheGreatCodeholio/icad_tr_uploader.git && \
-    rm -rf icad_tr_uploader/etc && \
-    cd icad_tr_uploader &&  \
-    pip3 install -r requirements.txt
 
 # GNURadio requires a place to store some files, can only be set via $HOME env var.
 ENV HOME=/tmp
