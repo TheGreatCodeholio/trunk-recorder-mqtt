@@ -97,7 +97,7 @@
     "callTimeout": 5,
     "tempDir": "/dev/shm",
     "captureDir": "/app/tr_audio",
-    "logDir": "/app/tr_logs"
+    "logDir": "/app/tr_logs",
     "logLevel": "info",
     "frequencyFormat": "mhz",
     "logFile": true,
