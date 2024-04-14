@@ -4,10 +4,12 @@ services:
     container_name: trunk_recorder
     restart: always
     privileged: true
+    stdin_open: true
+    tty: true
+    user: "${UID}:${GID}"
     devices:
       - "/dev/bus/usb:/dev/bus/usb:rwm"
     volumes:
-      - /dev/bus/usb:/dev/bus/usb
       - /var/run/dbus:/var/run/dbus
       - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
       - ./tr_config:/app/tr_config
