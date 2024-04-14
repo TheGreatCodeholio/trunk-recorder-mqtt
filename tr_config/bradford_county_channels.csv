@@ -1,0 +1,15 @@
+TG Number,Frequency,Tone,Alpha Tag,Description,Category,Tag
+100,154265000,,Fire 1/2 Disp,1/2 Fire Dispatch,Fire,Fire Dispatch
+103,155265000,,Fire 3,Fire 3 North,Fire,Fire-Tac
+104,154385000,,Fire 4 LZ,Fire 4 Landing Zone,Fire,Fire-Tac
+105,154220000,,Fire 5,Fireground 5,Fire,Fire-Tac
+106,154325000,,Fire 6 U-U,Fire 6 Unit-Unit,Fire,Fire-Tac
+108,155857500,,Fire South,Fire South Repeater,Fire,Fire-Tac
+109,158752500,,Fire West,Fire West Repeater,Fire,Fire-Tac
+110,158835000,,BC EMA,BradCo Emergency Management,Emergency,Emergency Ops
+200,462950000,,EMS Med-9,EMS Dispatch Med-9,EMS,EMS Dispatch
+201,462975000,,EMS Med-10,EMS Non-Emergency Med-10,EMS,EMS-Talk
+202,453900000,,Guthrie AirCom,Guthrie AirCom,EMS,EMS Dispatch
+203,463125000,,EMS Med-6,EMS Hospital Med-6,EMS,EMS-Talk
+203,463150000,,EMS Med-7,EMS Hospital Med-7,EMS,EMS-Talk
+300,155415000,,BrdCo CW Police,Countywide Police,Law,Law Dispatch

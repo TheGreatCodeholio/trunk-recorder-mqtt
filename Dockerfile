@@ -117,4 +117,4 @@ RUN git clone https://github.com/TheGreatCodeholio/icad_tr_uploader.git && \
 # GNURadio requires a place to store some files, can only be set via $HOME env var.
 ENV HOME=/tmp
 
-CMD trunk-recorder --config=/app/tr_config/config.json
+CMD trunk-recorder --config=/app/tr_config/tr_config.json

@@ -1,0 +1,108 @@
+{
+    "ver": 2,
+    "sources": [
+    {
+        "center": 15500000,
+        "rate": 2400000,
+        "error": 0,
+        "gain": 36,
+        "driver": "osmosdr",
+        "device": "rtl=00000121,buflen=65536"
+    },
+    {
+        "center": 159000000,
+        "rate": 2400000,
+        "error": 0,
+        "gain": 36,
+        "driver": "osmosdr",
+        "device": "rtl=00000122,buflen=65536"
+    },
+    {
+        "center": 453000000,
+        "rate": 2400000,
+        "error": 0,
+        "gain": 36,
+        "driver": "osmosdr",
+        "device": "rtl=00000123,buflen=65536"
+    },
+    {
+        "center": 463000000,
+        "rate": 2400000,
+        "error": 0,
+        "gain": 36,
+        "driver": "osmosdr",
+        "device": "rtl=00000124,buflen=65536"
+    }],
+    "systems": [
+        {
+            "type": "conventional",
+            "channelFile": "/home/adminlocal/tr_config/bradford_county_channels.csv",
+            "shortName": "bradford-pa",
+            "callLog": true,
+            "audioArchive": true,
+            "squelch": -50,
+            "uploadScript": "/home/adminlocal/icad_tr_uploader/upload.sh bradford-pa",
+            "compressWav": true,
+            "rrsysid": "2248",
+            "decodeMDC": true,
+            "minDuration": 1.0
+        },
+        {
+            "type": "conventionalP25",
+            "channelFile": "/home/adminlocal/tr_config/chemung_county_p25_channels.csv",
+            "shortName": "chemung-ny",
+            "callLog": true,
+            "audioArchive": true,
+            "squelch": -50,
+            "uploadScript": "/home/adminlocal/icad_tr_uploader/upload.sh chemung-ny",
+            "compressWav": true,
+            "rrsysid": "37669",
+            "decodeMDC": true,
+            "minDuration": 1.0
+        },
+        {
+            "type": "conventional",
+            "channelFile": "/home/adminlocal/tr_config/chemung_county_analog_channels.csv",
+            "shortName": "chemung-ny",
+            "callLog": true,
+            "audioArchive": true,
+            "squelch": -50,
+            "uploadScript": "/home/adminlocal/icad_tr_uploader/upload.sh chemung-ny",
+            "compressWav": true,
+            "rrsysid": "37669",
+            "decodeMDC": true,
+            "minDuration": 1.0
+        },
+        {
+            "type": "conventional",
+            "channelFile": "/home/adminlocal/tr_config/tioga_county_channels.csv",
+            "shortName": "tioga-ny",
+            "callLog": true,
+            "audioArchive": true,
+            "squelch": -46,
+            "uploadScript": "/home/adminlocal/icad_tr_uploader/upload.sh tioga-ny",
+            "compressWav": true,
+            "rrsysid": "1878",
+            "decodeMDC": true,
+            "minDuration": 1.0
+        },
+        {
+            "type": "conventional",
+            "channelFile": "/home/adminlocal/tr_config/ns_waverly_channels.csv",
+            "shortName": "ns-voice",
+            "callLog": true,
+            "audioArchive": true,
+            "squelch": -50,
+            "uploadScript": "/home/adminlocal/icad_tr_uploader/upload.sh ns-voice",
+            "compressWav": true,
+            "rrsysid": "8888",
+            "decodeMDC": true,
+            "minDuration": 1.0
+        }
+        ],
+    "logLevel": "debug",
+    "frequencyFormat": "mhz",
+    "logFile": true,
+    "audioStreaming": false
+
+}
