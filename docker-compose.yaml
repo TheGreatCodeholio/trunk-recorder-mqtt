@@ -4,6 +4,8 @@ services:
     container_name: trunk_recorder
     restart: always
     privileged: true
+    devices:
+      - "/dev/bus/usb:/dev/bus/usb:rwm"
     volumes:
       - /dev/bus/usb:/dev/bus/usb
       - /var/run/dbus:/var/run/dbus
