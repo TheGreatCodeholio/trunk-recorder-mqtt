@@ -6,6 +6,7 @@ services:
     privileged: true
     stdin_open: true
     tty: true
+    shm_size: '4gb'
     devices:
       - /dev/bus/usb:/dev/bus/usb
     volumes:
