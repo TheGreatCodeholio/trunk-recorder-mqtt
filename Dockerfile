@@ -81,7 +81,7 @@ RUN git clone -b rc/v5.0 https://github.com/robotastic/trunk-recorder.git  \
     && cd trunk-recorder  \
     && mkdir build
 
-RUN cd trunk-recorder/user_plugins && git clone -b test/autobuild_mqtt_audio https://github.com/TheGreatCodeholio/trunk-recorder-mqtt-status.git
+RUN cd trunk-recorder/user_plugins && git clone -b test/autobuild https://github.com/taclane/trunk-recorder-mqtt-status.git
 
 WORKDIR /src/trunk-recorder/build
 

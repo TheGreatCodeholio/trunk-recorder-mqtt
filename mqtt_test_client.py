@@ -1,13 +1,33 @@
+import base64
+import json
+import os
 import time
+from datetime import datetime
+
 from colorama import Fore, Back, Style
 import paho.mqtt.client as mqtt
 
 # MQTT settings
-MQTT_BROKER = 'mercury.icarey.net'  # Example: 'mqtt.example.com'
+MQTT_BROKER = ''  # Example: 'mqtt.example.com'
 MQTT_PORT = 1883  # Default port for MQTT
-MQTT_TOPIC = 'trunk_recorder/feeds/audio'  # Subscribes to all topics starting with 'trunk_recorder'
+MQTT_TOPIC = 'trunk_recorder/#'  # Subscribes to all topics starting with 'trunk_recorder'
 MQTT_USERNAME = 'trunk_recorder'  # MQTT username
-MQTT_PASSWORD = '4Ij29R&RaSkVgwhx'  # MQTT password
+MQTT_PASSWORD = ''  # MQTT password
+
+
+def save_files(wav_data, metadata):
+    # Get the current date
+    current_date = datetime.utcnow()
+
+    # Create folder structure using current date
+    folder_path = os.path.join("audio", metadata.get("short_name", "unknown"), str(current_date.year), str(current_date.month), str(current_date.day))
+    os.makedirs(folder_path, exist_ok=True)
+
+    # You can now use the wav_data as a binary stream
+    with open(os.path.join(folder_path, metadata["call_filename"]), "wb") as wav_file, open(
+            os.path.join(folder_path, metadata["call_filename"].replace(".wav", ".json")), "w") as json_file:
+        wav_file.write(wav_data)
+        json.dump(metadata, json_file, indent=4)
 
 
 def on_connect(client, userdata, flags, rc):
@@ -16,7 +36,15 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
-    print(f"Topic: {Fore.LIGHTGREEN_EX}{msg.topic}{Style.RESET_ALL} Message: {msg.payload.decode()}")
+    if msg.topic == 'trunk_recorder/feeds/audio':
+        data = json.loads(msg.payload)
+        call_data = data.get("call", {})
+        wav_data = base64.b64decode(call_data.get("audio_wav_base64", ""))
+        metadata = call_data.get("metadata", {})
+
+        save_files(wav_data, metadata)
+
+        print(f"Saved Audio")
 
 
 def main():
