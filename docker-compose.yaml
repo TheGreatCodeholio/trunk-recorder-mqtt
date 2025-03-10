@@ -1,6 +1,6 @@
 services:
   trunk_recorder:
-    image: thegreatcodeholio/trunk-recorder-mqtt:5.0_organized
+    image: thegreatcodeholio/trunk-recorder-mqtt:latest
     container_name: trunk_recorder
     restart: always
     privileged: true
