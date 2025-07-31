@@ -1,0 +1,50 @@
+{
+  "ver": 2,
+  "sources": [
+    {
+      "center": 462500000,
+      "rate": 2400000,
+      "error": 0,
+      "gain": 36,
+      "debugRecorders": 0,
+      "digitalRecoders": 0,
+      "driver": "osmosdr",
+      "device": "rtl=0,buflen=65536"
+    }
+  ],
+  "systems": [
+    {
+      "type": "conventional",
+      "channelFile": "/app/tr_config/channels.csv",
+      "shortName": "frs-radio",
+      "callLog": false,
+      "audioArchive": false,
+      "compressWav": false,
+      "squelch": -45,
+      "decodeMDC": true,
+      "minDuration": 1.0
+    }
+  ],
+  "plugins": [
+    {
+      "name": "MQTT Status",
+      "library": "/usr/local/lib/trunk-recorder/libmqtt_status_plugin.so",
+      "broker": "tcp://127.0.0.1:1883",
+      "topic": "trunk_recorder/feeds",
+      "unit_topic": "trunk_recorder/units",
+      "username": "mqttuser",
+      "password": "mqttpassword",
+      "mqtt_audio": true,
+      "mqtt_audio_type": "wav",
+      "console_logs":  false
+    }],
+  "callTimeout": 3,
+  "tempDir": "/dev/shm",
+  "captureDir": "/app/tr_audio",
+  "logDir": "/app/tr_logs",
+  "logLevel": "info",
+  "frequencyFormat": "mhz",
+  "logFile": true,
+  "audioStreaming": false,
+  "instanceId": "FRS-Radio"
+}
