@@ -1,7 +1,7 @@
 ###############################################################################
 # Stage 1 – compile trunk-recorder + SoapyPlutoPAPR (builder image)           #
 ###############################################################################
-FROM ubuntu:24.04 AS builder
+FROM ubuntu:noble-20251001 AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get -y upgrade && \
@@ -23,12 +23,12 @@ RUN apt-get update && apt-get -y upgrade && \
 
 WORKDIR /src
 # ───────────────────────── trunk-recorder (core) ─────────────────────────────
-RUN git clone --depth 1 https://github.com/robotastic/trunk-recorder.git && \
+RUN git clone --depth 1 https://github.com/TrunkRecorder/trunk-recorder.git && \
     mkdir -p trunk-recorder/build
 
 # MQTT plugin
 RUN git -C trunk-recorder/user_plugins \
-       clone --depth 1 https://github.com/taclane/trunk-recorder-mqtt-status.git
+       clone --depth 1 https://github.com/TrunkRecorder/tr-plugin-mqtt.git
 
 WORKDIR /src/trunk-recorder/build
 RUN cmake .. \
@@ -46,7 +46,7 @@ RUN cd /tmp && \
 ###############################################################################
 # Stage 2 – lightweight runtime image                                         #
 ###############################################################################
-FROM ubuntu:24.04
+FROM ubuntu:noble-20251001
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get -y upgrade && \
