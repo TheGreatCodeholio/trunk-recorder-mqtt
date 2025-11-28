@@ -18,12 +18,15 @@ RUN apt-get update && apt-get -y upgrade && \
         libpaho-mqtt-dev libpaho-mqttpp-dev libpthread-stubs0-dev libsndfile1-dev \
         libssl-dev python3-six openssh-client ca-certificates \
     # ── extra deps for SoapyPlutoPAPR ────────────────────────────────────────
-        libiio-dev libad9361-dev libserialport-dev flex bison libxml2-dev \
+        libiio-dev libad9361-dev libserialport-dev flex bison libxml2-dev soapysdr-tools \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src
 # ───────────────────────── trunk-recorder (core) ─────────────────────────────
 RUN git clone --depth 1 https://github.com/TrunkRecorder/trunk-recorder.git && \
+    # Re-enable simplestream plugin: it's commented out in upstream CMake
+    sed -i 's/^[[:space:]]*#\s*add_subdirectory(plugins\/simplestream)/add_subdirectory(plugins\/simplestream)/' \
+        trunk-recorder/CMakeLists.txt && \
     mkdir -p trunk-recorder/build
 
 # MQTT plugin
@@ -38,9 +41,11 @@ RUN cmake .. \
 # ───────────────────────── SoapyPlutoPAPR driver ────────────────────────────
 RUN cd /tmp && \
     git clone --depth 1 https://github.com/F5OEO/SoapyPlutoPAPR.git && \
-    cmake -S SoapyPlutoPAPR -B SoapyPlutoPAPR/build && \
+    cmake -S SoapyPlutoPAPR -B SoapyPlutoPAPR/build \
+          -DCMAKE_INSTALL_PREFIX=/usr \
+          -DCMAKE_INSTALL_LIBDIR=lib/x86_64-linux-gnu && \
     cmake --build SoapyPlutoPAPR/build -- -j"$(nproc)" && \
-    DESTDIR=/newroot cmake --install SoapyPlutoPAPR/build --prefix /usr && \
+    DESTDIR=/newroot cmake --install SoapyPlutoPAPR/build && \
     rm -rf SoapyPlutoPAPR
 
 ###############################################################################
